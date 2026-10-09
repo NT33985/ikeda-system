@@ -112,6 +112,8 @@
       position: relative;
       width: 100%;
       height: 100%;
+      display: flex;
+      flex-direction: column;
       min-height: 174px;
       padding: 16px 14px 13px;
       border: 2px solid transparent;
@@ -137,9 +139,8 @@
     .product-card:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(22,64,68,.11); }
     .product-card:active { transform: translateY(1px) scale(.985); }
     .product-wrap.selected .product-card { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(8,124,131,.12); }
-    .product-icon { display: block; font-size: 46px; line-height: 1; margin-bottom: 12px; filter: drop-shadow(0 4px 5px rgba(0,0,0,.07)); }
     .product-name { display: block; min-height: 42px; font-weight: 900; font-size: 15px; line-height: 1.35; }
-    .product-price { display: block; margin-top: 7px; color: #31585b; font-weight: 900; font-size: 17px; }
+    .product-price { display: block; margin-top: auto; padding-top: 7px; color: #31585b; font-weight: 900; font-size: 17px; }
     .qty-badge {
       position: absolute;
       top: 10px;
@@ -357,12 +358,11 @@
       .section-head { margin-bottom: 11px; }
       .product-grid { grid-template-columns: repeat(4, minmax(0,1fr)); gap: 6px; }
       .product-card { min-height: 112px; padding: 9px 7px 8px; border-radius: 14px; }
-      .product-icon { font-size: 27px; margin-bottom: 5px; }
       .product-name { min-height: 30px; font-size: 11px; line-height: 1.25; }
-      .product-price { margin-top: 2px; font-size: 13px; }
+      .product-price { padding-top: 2px; font-size: 13px; }
       .qty-badge { top: 5px; right: 5px; min-width: 26px; height: 26px; padding: 0 5px; font-size: 12px; }
       .minus-on-card { right: 5px; bottom: 5px; width: 32px; height: 32px; border-radius: 9px; font-size: 18px; }
-      .quick-cash { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+      .quick-cash { grid-template-columns: repeat(3, 1fr); gap: 6px; }
       .cash-chip { min-height: 42px; padding: 0 2px; font-size: 12px; }
       .mobile-total {
         position: fixed;
@@ -396,7 +396,7 @@
       .section-head { align-items: start; }
       .tap-hint { display: none; }
       .product-card { min-height: 108px; }
-      .quick-cash { grid-template-columns: repeat(4,1fr); }
+      .quick-cash { grid-template-columns: repeat(3,1fr); }
     }
     @media (prefers-reduced-motion: reduce) {
       * { scroll-behavior: auto !important; transition: none !important; }
@@ -474,7 +474,6 @@
           </label>
           <div class="quick-cash" aria-label="預かり金の早入力">
             <button type="button" class="cash-chip" data-cash="exact">ぴったり</button>
-            <button type="button" class="cash-chip" data-cash="10">＋¥10</button>
             <button type="button" class="cash-chip" data-cash="50">＋¥50</button>
             <button type="button" class="cash-chip" data-cash="100">＋¥100</button>
             <button type="button" class="cash-chip" data-cash="500">＋¥500</button>
@@ -533,29 +532,29 @@
       'use strict';
 
       const products = [
-        { id: 'pannacotta', name: 'パンナコッタ', label: 'パンナコッタ', price: 250, icon: '🥛', color: '#f6ecdf' },
-        { id: 'pudding', name: 'プリン', label: 'プリン', price: 200, icon: '🍮', color: '#fff0c7' },
-        { id: 'cream_puff', name: 'シュークリーム', label: 'シュークリーム', price: 200, icon: '🥯', color: '#f6e2cf' },
-        { id: 'mochi_financier', name: 'もちフィナンシェ', label: 'もちフィナンシェ', price: 200, icon: '🧁', color: '#ece4d6' },
-        { id: 'daifuku', name: '大福', label: '大福', price: 150, icon: '🍡', color: '#f6e5ed' },
-        { id: 'rice_donut', name: 'お米の焼きドーナツ', label: 'お米ドーナツ', price: 200, icon: '🍩', color: '#f5dfca' },
-        { id: 'rice_rollcake', name: 'お米の生ロールケーキ', label: 'お米ロール', price: 200, icon: '🍰', color: '#f9e5e2' },
-        { id: 'icebox', name: 'アイスボックス', label: 'アイスボックス', price: 200, icon: '🧊', color: '#dff0f5' },
-        { id: 'coolish', name: 'クーリッシュ（バニラ）', label: 'クーリッシュ', price: 250, icon: '🍦', color: '#e4eef8' },
-        { id: 'pino', name: 'ピノ', label: 'ピノ', price: 250, icon: '🍫', color: '#efe0d7' },
-        { id: 'icenomi', name: 'アイスの実', label: 'アイスの実', price: 250, icon: '🟣', color: '#ebe2f6' },
-        { id: 'pack_juice', name: 'パックジュース（4種類）', label: 'パックジュース', price: 100, icon: '🧃', color: '#ffe8ce' },
-        { id: 'pack_tea', name: 'パックお茶（麦茶）', label: 'パック麦茶', price: 100, icon: '🍵', color: '#e2efdf' },
-        { id: 'kuzubar', name: 'くずバー', label: 'くずバー', price: 250, icon: '🍧', color: '#e3f2f0' },
-        { id: 'saisai', name: '菜彩弁当', label: '菜彩弁当', price: 800, icon: '🍱', color: '#fff1d8' },
-        { id: 'sukeroku', name: '助六寿司（太巻4、いなり4）', label: '助六寿司', price: 650, icon: '🍣', color: '#f8e5ee' },
-        { id: 'onigiri', name: 'おにぎり２個（鮭、昆布）', label: 'おにぎり2個', price: 400, icon: '🍙', color: '#e9f1dc' },
-        { id: 'potato', name: 'フライドポテト（販売）', label: 'ポテト', price: 100, icon: '🍟', color: '#fff0c2' },
-        { id: 'nugget', name: 'チキンナゲット（販売）', label: 'ナゲット', price: 250, icon: '🍗', color: '#f9e3cf' },
-        { id: 'frank', name: 'フランクフルト　　1本（販売）', label: 'フランク 1本', price: 100, icon: '🌭', color: '#f5ded8' },
-        { id: 'coffee', name: 'スティックコーヒー（販売）', label: 'コーヒー', price: 100, icon: '☕', color: '#ece2da' },
-        { id: 'zenzai', name: 'ぜんざい', label: 'ぜんざい', price: 250, icon: '🥣', color: '#f3e6da' },
-        { id: 'zoni', name: '雑煮', label: '雑煮', price: 250, icon: '🍲', color: '#e1f1ec' }
+        { id: 'pannacotta', name: 'パンナコッタ', label: 'パンナコッタ', price: 250, color: '#f6ecdf' },
+        { id: 'pudding', name: 'プリン', label: 'プリン', price: 200, color: '#fff0c7' },
+        { id: 'cream_puff', name: 'シュークリーム', label: 'シュークリーム', price: 200, color: '#f6e2cf' },
+        { id: 'mochi_financier', name: 'もちフィナンシェ', label: 'もちフィナンシェ', price: 200, color: '#ece4d6' },
+        { id: 'daifuku', name: '大福', label: '大福', price: 150, color: '#f6e5ed' },
+        { id: 'rice_donut', name: 'お米の焼きドーナツ', label: 'お米ドーナツ', price: 200, color: '#f5dfca' },
+        { id: 'rice_rollcake', name: 'お米の生ロールケーキ', label: 'お米ロール', price: 200, color: '#f9e5e2' },
+        { id: 'icebox', name: 'アイスボックス', label: 'アイスボックス', price: 200, color: '#dff0f5' },
+        { id: 'coolish', name: 'クーリッシュ（バニラ）', label: 'クーリッシュ', price: 250, color: '#e4eef8' },
+        { id: 'pino', name: 'ピノ', label: 'ピノ', price: 250, color: '#efe0d7' },
+        { id: 'icenomi', name: 'アイスの実', label: 'アイスの実', price: 250, color: '#ebe2f6' },
+        { id: 'pack_juice', name: 'パックジュース（4種類）', label: 'パックジュース', price: 100, color: '#ffe8ce' },
+        { id: 'pack_tea', name: 'パックお茶（麦茶）', label: 'パック麦茶', price: 100, color: '#e2efdf' },
+        { id: 'kuzubar', name: 'くずバー', label: 'くずバー', price: 250, color: '#e3f2f0' },
+        { id: 'saisai', name: '菜彩弁当', label: '菜彩弁当', price: 800, color: '#fff1d8' },
+        { id: 'sukeroku', name: '助六寿司（太巻4、いなり4）', label: '助六寿司', price: 650, color: '#f8e5ee' },
+        { id: 'onigiri', name: 'おにぎり２個（鮭、昆布）', label: 'おにぎり2個', price: 400, color: '#e9f1dc' },
+        { id: 'potato', name: 'フライドポテト（販売）', label: 'ポテト', price: 100, color: '#fff0c2' },
+        { id: 'nugget', name: 'チキンナゲット（販売）', label: 'ナゲット', price: 250, color: '#f9e3cf' },
+        { id: 'frank', name: 'フランクフルト　　1本（販売）', label: 'フランク 1本', price: 100, color: '#f5ded8' },
+        { id: 'coffee', name: 'スティックコーヒー（販売）', label: 'コーヒー', price: 100, color: '#ece2da' },
+        { id: 'zenzai', name: 'ぜんざい', label: 'ぜんざい', price: 250, color: '#f3e6da' },
+        { id: 'zoni', name: '雑煮', label: '雑煮', price: 250, color: '#e1f1ec' }
       ];
 
       const byId = new Map(products.map(product => [product.id, product]));
@@ -692,7 +691,6 @@
             <div class="product-wrap${quantity ? ' selected' : ''}">
               <button type="button" class="product-card" style="--card-bg:${product.color}" data-add="${product.id}" aria-label="${product.name} ${yen(product.price)}を1個追加。現在${quantity}個">
                 <span class="qty-badge" aria-hidden="true">${quantity}</span>
-                <span class="product-icon" aria-hidden="true">${product.icon}</span>
                 <span class="product-name">${product.label || product.name}</span>
                 <span class="product-price">${yen(product.price)}</span>
               </button>
@@ -705,7 +703,7 @@
         const active = products.filter(product => state.cart.has(product.id));
         nodes.list.innerHTML = active.length ? active.map(product => {
           const quantity = state.cart.get(product.id);
-          return `<div class="order-line"><span class="line-name">${product.icon} ${product.label || product.name}</span><span class="line-qty">× ${quantity}</span><strong class="line-total">${yen(product.price * quantity)}</strong></div>`;
+          return `<div class="order-line"><span class="line-name">${product.label || product.name}</span><span class="line-qty">× ${quantity}</span><strong class="line-total">${yen(product.price * quantity)}</strong></div>`;
         }).join('') : '<div class="empty-state">商品をタップすると<br>ここに注文内容が表示されます</div>';
       };
 
@@ -715,7 +713,7 @@
         nodes.selectionMeta.textContent = `${count}点・${yen(total)}`;
         nodes.selectionList.innerHTML = active.length ? active.map(product => {
           const quantity = state.cart.get(product.id);
-          return `<span class="selection-chip">${product.icon} ${product.label || product.name} ×${quantity}</span>`;
+          return `<span class="selection-chip">${product.label || product.name} ×${quantity}</span>`;
         }).join('') : '<span class="selection-empty">まだ商品が選択されていません</span>';
       };
 
